@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-namespace Test.Pooling
+namespace ObjectPool.Example
 {
     public class PoolingObject : MonoBehaviour
     {

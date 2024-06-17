@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Test.Pooling
+namespace ObjectPool.Example
 {
     public class ObjectPoolingTest : MonoBehaviour
     {

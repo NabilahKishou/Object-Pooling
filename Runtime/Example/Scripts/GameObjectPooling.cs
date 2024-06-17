@@ -2,7 +2,7 @@
 using Utilites.Pooling;
 using Utilites.Singleton;
 
-namespace Test.Pooling
+namespace ObjectPool.Example
 {
     public class GameObjectPooling : PersistentSingleton<GameObjectPooling>
     {

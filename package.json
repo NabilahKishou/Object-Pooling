@@ -1,0 +1,10 @@
+{
+  "name": "com.septiannabilah.ObjectPoolSystem",
+  "version": "1.0.0",
+  "displayName": "Object Pooling System",
+  "description": "Object pooling for unity versions that don't have pooling library.",
+  "unity": "2020.1",
+  "author": {
+    "name": "Septian Nabilah",
+  }
+}

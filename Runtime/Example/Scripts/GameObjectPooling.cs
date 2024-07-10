@@ -1,59 +1,33 @@
 ﻿using UnityEngine;
 using Utilites.Pooling;
-using Utilites.Singleton;
 
 namespace ObjectPool.Example
 {
-    public class GameObjectPooling : PersistentSingleton<GameObjectPooling>
+    public class GameObjectPooling : CustomPoolManager<GameObject>
     {
-        [SerializeField] private GameObject _goPrefab;
-        [SerializeField] private int _poolSize = 3;
-        [SerializeField] private int _maxPoolSize = 5;
-        IObjectPool<GameObject> _goPool;
-
-        private void Start()
+        protected override GameObject CreateObject()
         {
-            InitializePool();
+            var go = Instantiate(_objectPrefab, this.transform);
+            go.SetActive(false);
+            return go;
         }
 
-        private void InitializePool()
-        {
-            _goPool = new ObjectPool<GameObject>.Builder()
-                .CreateFactory(InstantiateGO)
-                .WithStartingCapacity(_poolSize)
-                .WithMaxCapacity(_maxPoolSize)
-                .WhenGetItem(TakeFromPool)
-                .WhenItemReturned(ReturnedToPool)
-                .WhenItemDisposed(DisposedGO)
-                .Build();
-        }
-
-        private void DisposedGO(GameObject obj)
-        {
-            Debug.Log("Object disposed because pool is overload!", obj);
-            Destroy(obj);
-        }
-
-        private void ReturnedToPool(GameObject obj)
-        {
-            Debug.Log("Object returned from pool!", obj);
-            obj.SetActive(false);
-        }
-
-        private void TakeFromPool(GameObject obj)
+        protected override void OnTakeFromPool(GameObject obj)
         {
             Debug.Log("Object taken from pool!", obj);
             obj.SetActive(true);
         }
 
-        private GameObject InstantiateGO()
+        protected override void OnReturnedToPool(GameObject obj)
         {
-            var go = Instantiate(_goPrefab, this.transform);
-            go.SetActive(false);
-            return go;
+            Debug.Log("Object returned to pool!", obj);
+            obj.SetActive(false);
         }
 
-        public GameObject GetObject() => _goPool.GetItem();
-        public void ReturnObject(GameObject obj) => _goPool.ReleaseItem(obj);
+        protected override void OnDisposedObject(GameObject obj)
+        {
+            Debug.Log("Object disposed because pool is overload!", obj);
+            Destroy(obj);
+        }
     }
 }

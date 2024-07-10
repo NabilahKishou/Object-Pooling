@@ -153,9 +153,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AutoUnparentOnAwake: 1
-  _goPrefab: {fileID: 1374374212496917937, guid: 4890b3ed11c573c4c9ea05010e245cb8, type: 3}
-  _poolSize: 3
-  _maxPoolSize: 5
+  _objectPrefab: {fileID: 1374374212496917937, guid: 4890b3ed11c573c4c9ea05010e245cb8, type: 3}
+  _defaultPool: 10
+  _maxPool: 50
+  _maxObjectInstances: 30
 --- !u!4 &500173901
 Transform:
   m_ObjectHideFlags: 0

@@ -29,7 +29,7 @@ namespace Utilites.Pooling
 			this._onObjectDisposed = onDisposeItem;
 
 			_defaultPoolSize = defaultSize > 1 ? defaultSize : _defaultPoolSize;
-			_maxPoolSize = maxSize > _defaultPoolSize ? maxSize : _maxPoolSize;
+			_maxPoolSize = maxSize >= _defaultPoolSize ? maxSize : _maxPoolSize;
 			_list = new List<ItemContainer<T>>(defaultSize);
 			_lookup = new Dictionary<T, ItemContainer<T>>(defaultSize);
 			Warm(_defaultPoolSize);

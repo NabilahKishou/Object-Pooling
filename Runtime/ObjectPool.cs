@@ -28,10 +28,10 @@ namespace Utilites.Pooling
 			this._onReturnedToPool = onReleaseItem;
 			this._onObjectDisposed = onDisposeItem;
 
-			_defaultPoolSize = defaultSize > 1 ? defaultSize : _defaultPoolSize;
-			_maxPoolSize = maxSize >= _defaultPoolSize ? maxSize : _maxPoolSize;
-			_list = new List<ItemContainer<T>>(defaultSize);
-			_lookup = new Dictionary<T, ItemContainer<T>>(defaultSize);
+			_defaultPoolSize = defaultSize > 0 ? defaultSize : _defaultPoolSize;
+			_maxPoolSize = maxSize > _defaultPoolSize ? maxSize : _maxPoolSize;
+			_list = new List<ItemContainer<T>>(_defaultPoolSize);
+			_lookup = new Dictionary<T, ItemContainer<T>>(_defaultPoolSize);
 			Warm(_defaultPoolSize);
 		}
 

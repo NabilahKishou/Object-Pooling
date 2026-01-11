@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
+using Utilites.Pooling;
 
 namespace ObjectPool.Example
 {
@@ -28,7 +29,7 @@ namespace ObjectPool.Example
                 _lifeCoroutine = null;
             }
 
-            GameObjectPooling.Instance.ReturnObject(this.gameObject);
+            PoolProvider.Instance.ReturnObject("DefaultObject", gameObject);
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using Utilites.Pooling;
 
 namespace ObjectPool.Example
 {
@@ -16,12 +17,12 @@ namespace ObjectPool.Example
 
         private void BackspaceDown()
         {
-            GameObjectPooling.Instance.ReturnObject(_latestobject);
+            PoolProvider.Instance.ReturnObject("DefaultObject", _latestobject);
         }
 
         private void SpaceKeyDown()
         {
-            _latestobject = GameObjectPooling.Instance.GetObject();
+            _latestobject = PoolProvider.Instance.GetObject("DefaultObject");
             _latestobject.GetComponent<PoolingObject>().ObjectOn();
         }
     }

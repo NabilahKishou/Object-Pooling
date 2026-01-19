@@ -24,6 +24,7 @@ namespace Utilities.Pooling.Example {
         }
 
         void BackspaceDown() {
+            if (_stackObjects.Count <= 0) return;
             var dummy = _stackObjects.Pop();
             dummy.loader.ReturnObject(dummy.configName, dummy.gameObject);
         }

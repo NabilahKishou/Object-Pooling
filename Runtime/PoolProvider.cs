@@ -1,39 +1,22 @@
 ﻿using System.Collections.Generic;
-using UnityEngine;
-using Utilites.Singleton;
 
 namespace Utilites.Pooling {
-    public class PoolProvider : PersistentSingleton<PoolProvider> {
-        [SerializeField] PoolConfig[] _configs;
-        Dictionary<string, IObjectPool<GameObject>> _poolDictionary;
+    public static class PoolProvider {
+        static Dictionary<string, IPoolLoader> _loaders = new Dictionary<string, IPoolLoader>();
 
-        protected override void Awake() {
-            base.Awake();
-            _poolDictionary = new Dictionary<string, IObjectPool<GameObject>>();
-            InitPools();
+        public static void RegisterLoader(IPoolLoader loader) {
+            if (_loaders.ContainsKey(loader.LoaderName))
+                _loaders.Remove(loader.LoaderName);
+            _loaders.Add(loader.LoaderName, loader);
         }
 
-        void InitPools() {
-            foreach (var config in _configs) {
-                config.CreateContainer(transform);
-                var objPool = new ObjectPool<GameObject>.Builder()
-                    .WithStartingCapacity(config.defaultCapacity)
-                    .WithMaxCapacity(config.maxCapacity)
-                    .CreateFactory(config.CreateObject)
-                    .WhenGetItem(config.TakenFromPool)
-                    .WhenItemReturned(config.ReturnToPool)
-                    .WhenItemDisposed(config.DisposedObject)
-                    .Build();
-                _poolDictionary.Add(config.objectName, objPool);
-            }
+        public static void RemoveLoader(IPoolLoader loader) {
+            if (_loaders.ContainsKey(loader.LoaderName))
+                _loaders.Remove(loader.LoaderName);
         }
 
-        public GameObject GetObject(string objectName) => 
-            _poolDictionary.TryGetValue(objectName, out var objPool) ? objPool.GetItem() : null;
-
-        public void ReturnObject(string objectName, GameObject obj) {
-            if (_poolDictionary.TryGetValue(objectName, out var pool))
-                pool.ReleaseItem(obj);
+        public static IPoolLoader GetLoader(string loaderName) {
+            return _loaders.TryGetValue(loaderName, out var loader) ? loader : null;
         }
     }
 }
